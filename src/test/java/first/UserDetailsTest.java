@@ -14,14 +14,23 @@ public class UserDetailsTest {
     public void testIsValidEmail() {
         UserDetails userDetails = new UserDetails();
         assertFalse(userDetails.isValidEmail(null));
-        assertTrue(userDetails.isValidEmail("123user@gmail.com"));
         assertFalse(userDetails.isValidEmail("invalidemail.com"));
         assertFalse(userDetails.isValidEmail("email@gmail"));
+        assertFalse(userDetails.isValidEmail("email@gmail..com"));
+        assertFalse(userDetails.isValidEmail("@.com"));
+        assertFalse(userDetails.isValidEmail("@."));
+        assertFalse(userDetails.isValidEmail("email@@gmail.com"));
+        assertFalse(userDetails.isValidEmail("email@gmail..com"));
+        assertFalse(userDetails.isValidEmail("@gmail.com"));
         assertFalse(userDetails.isValidEmail("email.com"));
         assertFalse(userDetails.isValidEmail("email@gmail."));
         assertFalse(userDetails.isValidEmail("email@.com"));
         assertFalse(userDetails.isValidEmail("email@gmail.1"));
+        assertFalse(userDetails.isValidEmail("email@123.123"));
+        assertFalse(userDetails.isValidEmail("1@2.3"));
+        assertFalse(userDetails.isValidEmail("email@gmail.123"));
         assertFalse(userDetails.isValidEmail("email@.123"));
+        assertTrue(userDetails.isValidEmail("123user@gmail.com"));    
         assertTrue(userDetails.isValidEmail("user@gmail.com"));
         assertTrue(userDetails.isValidEmail("user123@gmail.com"));
     }
@@ -80,8 +89,10 @@ public class UserDetailsTest {
     public void testResetPassword() {
         UserDetails userDetails = new UserDetails();
         userDetails.signUp("test@example.com", "Password@1");
+        assertFalse(userDetails.resetPassword(null, null));
         assertTrue(userDetails.resetPassword("test@example.com", "NewPassword@2"));
         assertTrue(userDetails.login("test@example.com", "NewPassword@2"));
         assertFalse(userDetails.resetPassword("invalidemail.com", "NewPassword@2"));
     }   
 }
+
